@@ -4,6 +4,17 @@ Ansible Netcommon Collection Release Notes
 
 .. contents:: Topics
 
+v8.6.1
+======
+
+Bugfixes
+--------
+
+- cli_config: Apply C(diff_ignore_lines) when comparing the before/after running-config snapshots on platforms that support neither onbox diff nor generate diff, so volatile configuration lines no longer cause C(changed=true) on every run (https://github.com/ansible-collections/ansible.netcommon/issues/156).
+- cli_config: Fail with a clear error instead of silently pushing configuration when the connection plugin's capabilities cannot be determined (for example due to a malformed or empty response), rather than treating that failure the same as a platform explicitly declaring no diff support (https://github.com/ansible-collections/ansible.netcommon/issues/156).
+- cli_config: Push configuration and detect changes by comparing running-config snapshots taken before and after the change, for platforms whose cliconf plugin supports neither onbox diff nor generate diff. Previously the configuration was silently never pushed to the device in this scenario (https://github.com/ansible-collections/ansible.netcommon/issues/156).
+- netconf_config - fix intermittent ``Datastore locked`` error on IOS-XR and other NETCONF targets. Local content validation (format parsing and XML syntax check) is now performed before acquiring the candidate datastore lock so invalid content never causes a lock that cannot be cleanly released.
+
 v8.6.0
 ======
 
